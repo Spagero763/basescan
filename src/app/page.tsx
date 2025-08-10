@@ -16,7 +16,7 @@ import AdminActions from "@/components/dashboard/admin-actions";
 import ProtocolTvlChart from "@/components/dashboard/protocol-tvl-chart";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { Sidebar, SidebarContent, SidebarHeader, SidebarTrigger } from "@/components/ui/sidebar";
+import { Sidebar, SidebarContent, SidebarHeader, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 export default function Home() {
@@ -117,7 +117,7 @@ export default function Home() {
           </SidebarContent>
         </Sidebar>
 
-        <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
+        <SidebarInset>
            <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
               <div>
                 <Button variant="ghost" size="icon" className="md:hidden">
@@ -203,7 +203,7 @@ export default function Home() {
                 </Card>
               </section>
           </main>
-        </div>
+        </SidebarInset>
       </div>
   );
 }
