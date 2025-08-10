@@ -1,3 +1,4 @@
+
 "use client"
 
 import { TrendingUp } from "lucide-react"
@@ -59,7 +60,7 @@ export default function ProtocolTvlChart({ protocols }: ProtocolTvlChartProps) {
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
         <CardTitle className="font-headline text-2xl">Protocol TVL Distribution</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardDescription>An overview of where value is locked.</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
