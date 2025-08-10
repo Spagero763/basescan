@@ -1,6 +1,8 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
+import { formatDistanceToNow } from "date-fns";
 import type { Token } from "@/lib/mock-data";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ExternalLink } from "lucide-react";
@@ -10,6 +12,12 @@ interface TokenTableProps {
 }
 
 export default function TokenTable({ tokens }: TokenTableProps) {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const formatCurrency = (value: number) => {
     if (value >= 1_000_000_000) {
       return `$${(value / 1_000_000_000).toFixed(2)}B`;
@@ -29,6 +37,7 @@ export default function TokenTable({ tokens }: TokenTableProps) {
             <TableHead className="text-right">Price</TableHead>
             <TableHead className="text-right">Volume</TableHead>
             <TableHead className="text-right">Market Cap</TableHead>
+            <TableHead className="text-right">Last Updated</TableHead>
             <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -59,6 +68,9 @@ export default function TokenTable({ tokens }: TokenTableProps) {
               </TableCell>
               <TableCell className="text-right font-mono">
                 {formatCurrency(token.marketCap)}
+              </TableCell>
+              <TableCell className="text-right text-muted-foreground">
+                {isMounted ? `${formatDistanceToNow(new Date(token.lastUpdate))} ago` : '...'}
               </TableCell>
               <TableCell className="text-right">
                 <a

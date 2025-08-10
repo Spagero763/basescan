@@ -19,6 +19,7 @@ export type Token = {
   marketCap: number;
   logoUrl: string;
   logoHint: string;
+  lastUpdate: number;
 };
 
 export const protocols: Protocol[] = [
@@ -89,6 +90,7 @@ export const tokens: Token[] = [
     marketCap: 420000000000,
     logoUrl: "https://placehold.co/40x40.png",
     logoHint: "ethereum logo",
+    lastUpdate: Date.now() - 1000 * 60 * 5, // 5 minutes ago
   },
   {
     address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bda02913",
@@ -99,6 +101,7 @@ export const tokens: Token[] = [
     marketCap: 33000000000,
     logoUrl: "https://placehold.co/40x40.png",
     logoHint: "dollar coin",
+    lastUpdate: Date.now() - 1000 * 60 * 2, // 2 minutes ago
   },
   {
     address: "0x0000852600CEb0011448b29Cf04ee625585b0A23",
@@ -109,6 +112,7 @@ export const tokens: Token[] = [
     marketCap: 500000000,
     logoUrl: "https://placehold.co/40x40.png",
     logoHint: "letter A",
+    lastUpdate: Date.now() - 1000 * 60 * 10, // 10 minutes ago
   },
   {
     address: "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA",
@@ -119,6 +123,7 @@ export const tokens: Token[] = [
     marketCap: 5300000000,
     logoUrl: "https://placehold.co/40x40.png",
     logoHint: "orange diamond",
+    lastUpdate: Date.now() - 1000 * 60 * 8, // 8 minutes ago
   },
   {
     address: "0x4ed4E862860beD51a9570b96d89aF5E1B0Efefed",
@@ -129,5 +134,6 @@ export const tokens: Token[] = [
     marketCap: 30000000,
     logoUrl: "https://placehold.co/40x40.png",
     logoHint: "abstract shape",
+    lastUpdate: Date.now() - 1000 * 60 * 60, // 1 hour ago
   },
 ];
