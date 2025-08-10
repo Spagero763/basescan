@@ -1,6 +1,6 @@
 "use client";
 
-import { DollarSign, Users, TrendingUp, Shield, Wallet } from "lucide-react";
+import { DollarSign, Users, TrendingUp, Shield, Wallet, Bot, Search, UploadCloud, UserCog } from "lucide-react";
 import { protocols, tokens } from "@/lib/mock-data";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -13,11 +13,12 @@ import MetricsCard from "@/components/dashboard/metrics-card";
 import UpdateMetrics from "@/components/dashboard/update-metrics";
 import UpdateTokenPrices from "@/components/dashboard/update-token-prices";
 import AdminActions from "@/components/dashboard/admin-actions";
-import { CollapsibleCard } from "@/components/ui/collapsible-card";
 import { Separator } from "@/components/ui/separator";
 import ProtocolTvlChart from "@/components/dashboard/protocol-tvl-chart";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { Sidebar, SidebarContent, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 export default function Home() {
   const [isConnected, setIsConnected] = useState(false);
@@ -48,142 +49,156 @@ export default function Home() {
 
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-background">
-      <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b bg-background/95 px-4 backdrop-blur sm:px-6">
-        <div className="flex items-center gap-2">
-          <Logo className="h-8 w-8 text-primary" />
-          <h1 className="text-2xl font-bold font-headline">BaseScan</h1>
-        </div>
-        <div className="flex items-center gap-4">
-          <div className="hidden items-center gap-2 text-sm sm:flex">
-            <Shield className="h-4 w-4 text-muted-foreground" />
-            <span className="text-muted-foreground">Owner:</span>
-            <a
-              href={`https://etherscan.io/address/${contractOwner}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-mono text-primary hover:underline"
-            >
-              {`${contractOwner.substring(0, 6)}...${contractOwner.substring(contractOwner.length - 4)}`}
-            </a>
-          </div>
-          {isConnected && account ? (
-             <Button variant="outline" onClick={handleDisconnectWallet}>
-               <span className="font-mono">{`${account.substring(0, 6)}...${account.substring(account.length - 4)}`}</span>
-             </Button>
-          ) : (
-            <Button onClick={handleConnectWallet} disabled={isConnecting}>
-              <Wallet className="mr-2 h-4 w-4" />
-              {isConnecting ? "Connecting..." : "Connect Wallet"}
-            </Button>
-          )}
-        </div>
-      </header>
-      <main className="flex-1 p-4 sm:p-6">
-        <div className="container mx-auto">
-          <section className="mb-6">
-            <h2 className="text-3xl font-bold font-headline tracking-tight mb-1">
-              Base Ecosystem Metrics
-            </h2>
-            <p className="text-muted-foreground">
-              An overview of the DeFi landscape on Base.
-            </p>
-          </section>
-
-          <section className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            <MetricsCard
-              title="Total Value Locked (TVL)"
-              value={`$${(totalTVL / 1e9).toFixed(2)}B`}
-              icon={<DollarSign />}
-              description="The total value of assets locked in Base protocols."
-            />
-            <MetricsCard
-              title="24h Volume"
-              value={`$${(totalVolume24h / 1e6).toFixed(2)}M`}
-              icon={<TrendingUp />}
-              description="The total trading volume across Base in the last 24 hours."
-            />
-            <MetricsCard
-              title="Active Users"
-              value={totalUsers.toLocaleString()}
-              icon={<Users />}
-              description="The number of unique wallets interacting with Base protocols."
-            />
-          </section>
-
-          <section className="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-3">
-            <div className="lg:col-span-2">
-              <AiInsights
-                tvl={totalTVL}
-                volume24h={totalVolume24h}
-                users={totalUsers}
-                protocolNames={protocolNames}
-              />
-            </div>
-            <div>
-              <EtherscanLinker />
-            </div>
-          </section>
-
-          <Separator className="my-8" />
-          
-          <section className="mb-8">
-            <ProtocolTvlChart protocols={protocols} />
-          </section>
-          
-          <Separator className="my-8" />
-
-          <section className="mb-8 space-y-6">
-             <CollapsibleCard
-              title="Update Protocol Metrics"
-              description="For authorized updaters only. Submit new data for protocols."
-              defaultOpen={false}
-            >
-              <UpdateMetrics />
-            </CollapsibleCard>
-
-            <CollapsibleCard
-              title="Update Token Prices"
-              description="For authorized updaters only. Submit new data for tokens."
-              defaultOpen={false}
-            >
-              <UpdateTokenPrices />
-            </CollapsibleCard>
-
-            <CollapsibleCard
-              title="Admin Actions"
-              description="Owner-only actions for managing the contract."
-              defaultOpen={false}
-            >
-              <AdminActions />
-            </CollapsibleCard>
-          </section>
-
-          <section>
-            <Card>
-              <CardContent className="p-0">
-                <Tabs defaultValue="protocols">
-                  <div className="p-4 border-b">
-                    <TabsList>
-                      <TabsTrigger value="protocols">Protocols</TabsTrigger>
-                      <TabsTrigger value="tokens">Tokens</TabsTrigger>
-                    </TabsList>
+      <div className="flex min-h-screen w-full flex-col bg-muted/40">
+        <Sidebar collapsible="icon">
+          <SidebarHeader>
+             <div className="flex items-center gap-2">
+                <Button variant="ghost" size="icon" className="md:hidden" asChild>
+                  <SidebarTrigger />
+                </Button>
+                <Logo className="h-8 w-8 text-primary" />
+                <h1 className="text-2xl font-bold font-headline text-primary">BaseScan</h1>
+              </div>
+          </SidebarHeader>
+          <SidebarContent>
+            <Accordion type="multiple" defaultValue={["item-1", "item-2", "item-3"]} className="w-full">
+              <AccordionItem value="item-1">
+                <AccordionTrigger className="px-4 text-base hover:no-underline">
+                  <div className="flex items-center gap-2">
+                    <Bot /> AI Tools
                   </div>
-                  <TabsContent value="protocols" className="p-4">
-                    <ProtocolTable protocols={protocols} />
-                  </TabsContent>
-                  <TabsContent value="tokens" className="p-4">
-                    <TokenTable tokens={tokens} />
-                  </TabsContent>
-                </Tabs>
-              </CardContent>
-            </Card>
-          </section>
+                </AccordionTrigger>
+                <AccordionContent className="p-2">
+                    <AiInsights
+                    tvl={totalTVL}
+                    volume24h={totalVolume24h}
+                    users={totalUsers}
+                    protocolNames={protocolNames}
+                  />
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="item-2">
+                <AccordionTrigger className="px-4 text-base hover:no-underline">
+                  <div className="flex items-center gap-2">
+                    <Search /> Explorer
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="p-2">
+                  <EtherscanLinker />
+                </AccordionContent>
+              </AccordionItem>
+               <AccordionItem value="item-3">
+                <AccordionTrigger className="px-4 text-base hover:no-underline">
+                  <div className="flex items-center gap-2">
+                    <UploadCloud /> Update Data
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="p-2 space-y-2">
+                   <UpdateMetrics />
+                   <UpdateTokenPrices />
+                </AccordionContent>
+              </AccordionItem>
+               <AccordionItem value="item-4">
+                <AccordionTrigger className="px-4 text-base hover:no-underline">
+                  <div className="flex items-center gap-2">
+                    <UserCog /> Admin
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="p-2">
+                   <AdminActions />
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </SidebarContent>
+        </Sidebar>
+
+        <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
+           <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
+              <div>
+                <SidebarTrigger>
+                   <Button variant="ghost" size="icon" className="md:hidden" />
+                </SidebarTrigger>
+                <h2 className="text-3xl font-bold font-headline tracking-tight">
+                  Base Ecosystem Metrics
+                </h2>
+                <p className="text-muted-foreground">
+                  An overview of the DeFi landscape on Base.
+                </p>
+              </div>
+
+            <div className="flex items-center gap-4">
+              <div className="hidden items-center gap-2 text-sm sm:flex">
+                <Shield className="h-4 w-4 text-muted-foreground" />
+                <span className="text-muted-foreground">Owner:</span>
+                <a
+                  href={`https://etherscan.io/address/${contractOwner}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-mono text-primary hover:underline"
+                >
+                  {`${contractOwner.substring(0, 6)}...${contractOwner.substring(contractOwner.length - 4)}`}
+                </a>
+              </div>
+              {isConnected && account ? (
+                <Button variant="outline" onClick={handleDisconnectWallet}>
+                  <span className="font-mono">{`${account.substring(0, 6)}...${account.substring(account.length - 4)}`}</span>
+                </Button>
+              ) : (
+                <Button onClick={handleConnectWallet} disabled={isConnecting}>
+                  <Wallet className="mr-2 h-4 w-4" />
+                  {isConnecting ? "Connecting..." : "Connect Wallet"}
+                </Button>
+              )}
+            </div>
+          </header>
+          <main className="flex-1 p-4 sm:px-6 sm:py-0 space-y-6">
+              <section className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                <MetricsCard
+                  title="Total Value Locked (TVL)"
+                  value={`$${(totalTVL / 1e9).toFixed(2)}B`}
+                  icon={<DollarSign />}
+                  description="The total value of assets locked in Base protocols."
+                />
+                <MetricsCard
+                  title="24h Volume"
+                  value={`$${(totalVolume24h / 1e6).toFixed(2)}M`}
+                  icon={<TrendingUp />}
+                  description="The total trading volume across Base in the last 24 hours."
+                />
+                <MetricsCard
+                  title="Active Users"
+                  value={totalUsers.toLocaleString()}
+                  icon={<Users />}
+                  description="The number of unique wallets interacting with Base protocols."
+                />
+              </section>
+
+              <section>
+                <ProtocolTvlChart protocols={protocols} />
+              </section>
+              
+              <section>
+                <Card>
+                  <CardContent className="p-0">
+                    <Tabs defaultValue="protocols">
+                      <div className="p-4 border-b">
+                        <TabsList>
+                          <TabsTrigger value="protocols">Protocols</TabsTrigger>
+                          <TabsTrigger value="tokens">Tokens</TabsTrigger>
+                        </TabsList>
+                      </div>
+                      <TabsContent value="protocols" className="p-4">
+                        <ProtocolTable protocols={protocols} />
+                      </TabsContent>
+                      <TabsContent value="tokens" className="p-4">
+                        <TokenTable tokens={tokens} />
+                      </TabsContent>
+                    </Tabs>
+                  </CardContent>
+                </Card>
+              </section>
+          </main>
         </div>
-      </main>
-      <footer className="border-t py-4 text-center text-sm text-muted-foreground">
-        Built with Next.js and Firebase.
-      </footer>
-    </div>
+      </div>
   );
 }

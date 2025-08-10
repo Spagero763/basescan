@@ -61,20 +61,14 @@ export default function AdminActions() {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <Card className="bg-background">
-        <CardHeader>
-          <div className="flex items-center gap-3">
-            <UserPlus className="h-5 w-5 text-primary"/>
-            <div>
-              <CardTitle className="text-xl font-headline">Authorize Updater</CardTitle>
-              <CardDescription>Grant an address permission to update metrics.</CardDescription>
-            </div>
-          </div>
+    <div className="space-y-4">
+      <Card className="bg-transparent border-0 shadow-none">
+        <CardHeader className="p-0 mb-2">
+          <CardTitle className="text-base font-headline">Authorize Updater</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onAuthorizeSubmit)} className="flex items-center gap-4">
+            <form onSubmit={form.handleSubmit(onAuthorizeSubmit)} className="flex items-center gap-2">
               <FormField
                 control={form.control}
                 name="address"
@@ -82,42 +76,37 @@ export default function AdminActions() {
                   <FormItem className="flex-grow">
                     <FormLabel className="sr-only">Updater Address</FormLabel>
                     <FormControl>
-                      <Input placeholder="0x..." {...field} />
+                      <Input placeholder="0x..." {...field} className="h-9"/>
                     </FormControl>
                     <FormMessage className="mt-1"/>
                   </FormItem>
                 )}
               />
-              <Button type="submit" disabled={isAuthorizing}>
-                {isAuthorizing ? "Authorizing..." : "Authorize"}
+              <Button type="submit" disabled={isAuthorizing} size="sm">
+                {isAuthorizing ? "..." : "Auth"}
               </Button>
             </form>
           </Form>
         </CardContent>
       </Card>
 
-      <Card className="bg-background">
-        <CardHeader>
-           <div className="flex items-center gap-3">
-            <UserX className="h-5 w-5 text-destructive"/>
-            <div>
-                <CardTitle className="text-xl font-headline">Manage Updaters</CardTitle>
-                <CardDescription>Revoke updater permissions.</CardDescription>
-            </div>
-           </div>
+      <Card className="bg-transparent border-0 shadow-none">
+        <CardHeader className="p-0 mb-2">
+            <CardTitle className="text-base font-headline">Manage Updaters</CardTitle>
         </CardHeader>
-        <CardContent>
-            <div className="space-y-3">
+        <CardContent className="p-0">
+            <div className="space-y-2">
                 {updaters.map(updater => (
                     <div key={updater} className="flex items-center justify-between p-2 rounded-md bg-muted/50">
-                        <p className="font-mono text-sm text-muted-foreground">{updater}</p>
+                        <p className="font-mono text-xs text-muted-foreground">{updater.substring(0,12)}...</p>
                         <Button
                             variant="ghost"
-                            size="sm"
+                            size="icon"
+                            className="h-6 w-6"
                             onClick={() => handleRemoveUpdater(updater)}
                             disabled={isRemoving}
                         >
-                           <UserX className="mr-2 h-4 w-4"/> Revoke
+                           <UserX className="h-4 w-4"/>
                         </Button>
                     </div>
                 ))}

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Search, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
 export default function EtherscanLinker() {
@@ -12,27 +12,15 @@ export default function EtherscanLinker() {
   const basescanUrl = `https://basescan.org/address/${address}`;
 
   return (
-    <Card className="h-full flex flex-col">
-      <CardHeader>
-        <div className="flex items-center gap-3">
-          <div className="bg-primary/10 p-2 rounded-lg">
-             <Search className="h-6 w-6 text-primary" />
-          </div>
-          <div>
-            <CardTitle className="font-headline">Contract Explorer</CardTitle>
-            <CardDescription>
-              Look up any address on Basescan.
-            </CardDescription>
-          </div>
-        </div>
-      </CardHeader>
-      <CardContent className="flex-grow flex flex-col justify-between gap-4">
+    <Card className="h-full flex flex-col bg-transparent border-0 shadow-none">
+      <CardContent className="flex-grow flex flex-col justify-between gap-4 p-0">
         <div className="space-y-2">
             <Input
             id="address-input"
             placeholder="0x..."
             value={address}
             onChange={(e) => setAddress(e.target.value)}
+            className="h-9"
             />
             <p className="text-xs text-muted-foreground">Enter a valid contract or wallet address.</p>
         </div>
