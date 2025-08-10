@@ -30,6 +30,11 @@ export default function Home() {
   const protocolNames = protocols.map(p => p.name);
   const contractOwner = "0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B"; // Placeholder address
 
+  // Simple ecosystem-wide APY calculation
+  const totalDailyFees = totalVolume24h * 0.003; // Assume 0.3% fee
+  const totalAnnualFees = totalDailyFees * 365;
+  const ecosystemApy = totalTVL > 0 ? (totalAnnualFees / totalTVL) * 100 : 0;
+
   const handleConnectWallet = async () => {
     setIsConnecting(true);
     // In a real app, you would use a library like ethers.js, wagmi, or web3-react to connect to a wallet.
@@ -73,6 +78,7 @@ export default function Home() {
                     volume24h={totalVolume24h}
                     users={totalUsers}
                     protocolNames={protocolNames}
+                    apy={ecosystemApy}
                   />
                 </AccordionContent>
               </AccordionItem>
@@ -114,9 +120,9 @@ export default function Home() {
         <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
            <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
               <div>
-                <SidebarTrigger>
-                   <Button variant="ghost" size="icon" className="md:hidden" />
-                </SidebarTrigger>
+                <Button variant="ghost" size="icon" className="md:hidden">
+                    <SidebarTrigger />
+                </Button>
                 <h2 className="text-3xl font-bold font-headline tracking-tight">
                   Base Ecosystem Metrics
                 </h2>
