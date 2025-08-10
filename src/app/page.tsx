@@ -1,4 +1,4 @@
-import { DollarSign, Users, TrendingUp, BarChart } from "lucide-react";
+import { DollarSign, Users, TrendingUp, Shield } from "lucide-react";
 import { protocols, tokens } from "@/lib/mock-data";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -14,13 +14,26 @@ export default function Home() {
   const totalVolume24h = protocols.reduce((acc, p) => acc + p.volume24h, 0);
   const totalUsers = protocols.reduce((acc, p) => acc + p.users, 0);
   const protocolNames = protocols.map(p => p.name);
+  const contractOwner = "0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B"; // Placeholder address
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
-      <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background/95 px-4 backdrop-blur sm:px-6">
+      <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b bg-background/95 px-4 backdrop-blur sm:px-6">
         <div className="flex items-center gap-2">
           <Logo className="h-8 w-8 text-primary" />
           <h1 className="text-2xl font-bold font-headline">BaseScan</h1>
+        </div>
+        <div className="flex items-center gap-2 text-sm">
+          <Shield className="h-4 w-4 text-muted-foreground" />
+          <span className="text-muted-foreground">Owner:</span>
+          <a
+            href={`https://etherscan.io/address/${contractOwner}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-mono text-primary hover:underline"
+          >
+            {`${contractOwner.substring(0, 6)}...${contractOwner.substring(contractOwner.length - 4)}`}
+          </a>
         </div>
       </header>
       <main className="flex-1 p-4 sm:p-6">
