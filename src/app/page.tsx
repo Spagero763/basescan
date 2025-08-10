@@ -1,6 +1,6 @@
 import { DollarSign, Users, TrendingUp, Shield } from "lucide-react";
 import { protocols, tokens } from "@/lib/mock-data";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AiInsights from "@/components/dashboard/ai-insights";
 import EtherscanLinker from "@/components/dashboard/etherscan-linker";
@@ -10,6 +10,9 @@ import { Logo } from "@/components/icons";
 import MetricsCard from "@/components/dashboard/metrics-card";
 import UpdateMetrics from "@/components/dashboard/update-metrics";
 import UpdateTokenPrices from "@/components/dashboard/update-token-prices";
+import AdminActions from "@/components/dashboard/admin-actions";
+import { CollapsibleCard } from "@/components/ui/collapsible-card";
+import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
   const totalTVL = protocols.reduce((acc, p) => acc + p.tvl, 0);
@@ -83,10 +86,33 @@ export default function Home() {
               <EtherscanLinker />
             </div>
           </section>
+          
+          <Separator className="my-8" />
 
-          <section className="mb-8 space-y-8">
-            <UpdateMetrics />
-            <UpdateTokenPrices />
+          <section className="mb-8 space-y-6">
+             <CollapsibleCard
+              title="Update Protocol Metrics"
+              description="For authorized updaters only. Submit new data for protocols."
+              defaultOpen={false}
+            >
+              <UpdateMetrics />
+            </CollapsibleCard>
+
+            <CollapsibleCard
+              title="Update Token Prices"
+              description="For authorized updaters only. Submit new data for tokens."
+              defaultOpen={false}
+            >
+              <UpdateTokenPrices />
+            </CollapsibleCard>
+
+            <CollapsibleCard
+              title="Admin Actions"
+              description="Owner-only actions for managing the contract."
+              defaultOpen={false}
+            >
+              <AdminActions />
+            </CollapsibleCard>
           </section>
 
           <section>
