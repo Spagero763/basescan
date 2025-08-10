@@ -7,6 +7,7 @@ import type { Protocol } from "@/lib/mock-data";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cn } from "@/lib/utils";
 
 interface ProtocolTableProps {
   protocols: Protocol[];
@@ -54,6 +55,7 @@ export default function ProtocolTable({ protocols }: ProtocolTableProps) {
             <TableRow>
               <TableHead className="w-[250px]">Protocol</TableHead>
               <TableHead>Category</TableHead>
+              <TableHead>Status</TableHead>
               <TableHead className="text-right">TVL</TableHead>
               <TableHead className="text-right">24h Volume</TableHead>
               <TableHead className="text-right">Users</TableHead>
@@ -79,6 +81,19 @@ export default function ProtocolTable({ protocols }: ProtocolTableProps) {
                 </TableCell>
                 <TableCell>
                   <Badge variant="secondary">{protocol.category}</Badge>
+                </TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-2">
+                    <div
+                      className={cn(
+                        "h-2.5 w-2.5 rounded-full",
+                        protocol.isActive ? "bg-green-500" : "bg-gray-500"
+                      )}
+                    />
+                    <span className="text-muted-foreground">
+                      {protocol.isActive ? "Active" : "Inactive"}
+                    </span>
+                  </div>
                 </TableCell>
                 <TableCell className="text-right font-mono">
                   ${(protocol.tvl / 1_000_000).toFixed(2)}M

@@ -7,6 +7,7 @@ export type Protocol = {
   logoUrl: string;
   logoHint: string;
   timestamp: number;
+  isActive: boolean;
 };
 
 export type Token = {
@@ -30,6 +31,7 @@ export const protocols: Protocol[] = [
     logoUrl: "https://placehold.co/40x40.png",
     logoHint: "rocket logo",
     timestamp: Date.now() - 1000 * 60 * 30, // 30 minutes ago
+    isActive: true,
   },
   {
     name: "BaseLend",
@@ -40,6 +42,7 @@ export const protocols: Protocol[] = [
     logoUrl: "https://placehold.co/40x40.png",
     logoHint: "bank building",
     timestamp: Date.now() - 1000 * 60 * 60 * 2, // 2 hours ago
+    isActive: true,
   },
   {
     name: "VelocityX",
@@ -50,6 +53,7 @@ export const protocols: Protocol[] = [
     logoUrl: "https://placehold.co/40x40.png",
     logoHint: "speed lines",
     timestamp: Date.now() - 1000 * 60 * 45, // 45 minutes ago
+    isActive: true,
   },
   {
     name: "StakeBase",
@@ -60,6 +64,7 @@ export const protocols: Protocol[] = [
     logoUrl: "https://placehold.co/40x40.png",
     logoHint: "shield icon",
     timestamp: Date.now() - 1000 * 60 * 60 * 5, // 5 hours ago
+    isActive: false,
   },
   {
     name: "YieldFarm",
@@ -70,6 +75,7 @@ export const protocols: Protocol[] = [
     logoUrl: "https://placehold.co/40x40.png",
     logoHint: "wheat plant",
     timestamp: Date.now() - 1000 * 60 * 60 * 24, // 1 day ago
+    isActive: true,
   },
 ];
 
