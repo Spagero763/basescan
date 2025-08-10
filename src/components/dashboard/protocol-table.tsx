@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
+import { formatDistanceToNow } from "date-fns";
 import type { Protocol } from "@/lib/mock-data";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -16,6 +17,11 @@ type Category = (typeof categories)[number];
 
 export default function ProtocolTable({ protocols }: ProtocolTableProps) {
   const [filter, setFilter] = useState<Category>("All");
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const filteredProtocols =
     filter === "All"
@@ -52,6 +58,7 @@ export default function ProtocolTable({ protocols }: ProtocolTableProps) {
               <TableHead className="text-right">24h Volume</TableHead>
               <TableHead className="text-right">Users</TableHead>
               <TableHead className="text-right">Est. APY</TableHead>
+              <TableHead className="text-right">Last Updated</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -84,6 +91,9 @@ export default function ProtocolTable({ protocols }: ProtocolTableProps) {
                 </TableCell>
                 <TableCell className="text-right font-mono text-primary">
                   {calculateApy(protocol.volume24h, protocol.tvl)}%
+                </TableCell>
+                <TableCell className="text-right text-muted-foreground">
+                  {isMounted ? `${formatDistanceToNow(new Date(protocol.timestamp))} ago` : '...'}
                 </TableCell>
               </TableRow>
             ))}

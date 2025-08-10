@@ -6,6 +6,7 @@ export type Protocol = {
   category: 'DEX' | 'Lending' | 'Liquid Staking' | 'Yield';
   logoUrl: string;
   logoHint: string;
+  timestamp: number;
 };
 
 export type Token = {
@@ -28,6 +29,7 @@ export const protocols: Protocol[] = [
     category: "DEX",
     logoUrl: "https://placehold.co/40x40.png",
     logoHint: "rocket logo",
+    timestamp: Date.now() - 1000 * 60 * 30, // 30 minutes ago
   },
   {
     name: "BaseLend",
@@ -37,6 +39,7 @@ export const protocols: Protocol[] = [
     category: "Lending",
     logoUrl: "https://placehold.co/40x40.png",
     logoHint: "bank building",
+    timestamp: Date.now() - 1000 * 60 * 60 * 2, // 2 hours ago
   },
   {
     name: "VelocityX",
@@ -46,6 +49,7 @@ export const protocols: Protocol[] = [
     category: "DEX",
     logoUrl: "https://placehold.co/40x40.png",
     logoHint: "speed lines",
+    timestamp: Date.now() - 1000 * 60 * 45, // 45 minutes ago
   },
   {
     name: "StakeBase",
@@ -55,6 +59,7 @@ export const protocols: Protocol[] = [
     category: "Liquid Staking",
     logoUrl: "https://placehold.co/40x40.png",
     logoHint: "shield icon",
+    timestamp: Date.now() - 1000 * 60 * 60 * 5, // 5 hours ago
   },
   {
     name: "YieldFarm",
@@ -64,6 +69,7 @@ export const protocols: Protocol[] = [
     category: "Yield",
     logoUrl: "https://placehold.co/40x40.png",
     logoHint: "wheat plant",
+    timestamp: Date.now() - 1000 * 60 * 60 * 24, // 1 day ago
   },
 ];
 
