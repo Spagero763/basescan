@@ -13,11 +13,10 @@ import MetricsCard from "@/components/dashboard/metrics-card";
 import UpdateMetrics from "@/components/dashboard/update-metrics";
 import UpdateTokenPrices from "@/components/dashboard/update-token-prices";
 import AdminActions from "@/components/dashboard/admin-actions";
-import { Separator } from "@/components/ui/separator";
 import ProtocolTvlChart from "@/components/dashboard/protocol-tvl-chart";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { Sidebar, SidebarContent, SidebarHeader, SidebarInset, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Sidebar, SidebarContent, SidebarHeader, SidebarTrigger } from "@/components/ui/sidebar";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 export default function Home() {
@@ -53,7 +52,7 @@ export default function Home() {
         <Sidebar collapsible="icon">
           <SidebarHeader>
              <div className="flex items-center gap-2">
-                <Button variant="ghost" size="icon" className="md:hidden" asChild>
+                <Button variant="ghost" size="icon" className="md:hidden">
                   <SidebarTrigger />
                 </Button>
                 <Logo className="h-8 w-8 text-primary" />
