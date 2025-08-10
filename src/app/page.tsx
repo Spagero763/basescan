@@ -1,4 +1,6 @@
-import { DollarSign, Users, TrendingUp, Shield } from "lucide-react";
+"use client";
+
+import { DollarSign, Users, TrendingUp, Shield, Wallet } from "lucide-react";
 import { protocols, tokens } from "@/lib/mock-data";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -14,13 +16,36 @@ import AdminActions from "@/components/dashboard/admin-actions";
 import { CollapsibleCard } from "@/components/ui/collapsible-card";
 import { Separator } from "@/components/ui/separator";
 import ProtocolTvlChart from "@/components/dashboard/protocol-tvl-chart";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 export default function Home() {
+  const [isConnected, setIsConnected] = useState(false);
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [account, setAccount] = useState<string | null>(null);
+
   const totalTVL = protocols.reduce((acc, p) => acc + p.tvl, 0);
   const totalVolume24h = protocols.reduce((acc, p) => acc + p.volume24h, 0);
   const totalUsers = protocols.reduce((acc, p) => acc + p.users, 0);
   const protocolNames = protocols.map(p => p.name);
   const contractOwner = "0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B"; // Placeholder address
+
+  const handleConnectWallet = async () => {
+    setIsConnecting(true);
+    // In a real app, you would use a library like ethers.js, wagmi, or web3-react to connect to a wallet.
+    // This is a simulation.
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    const mockAccount = "0x742d35Cc6634C0532925a3b844Bc454e4438f44e";
+    setAccount(mockAccount);
+    setIsConnected(true);
+    setIsConnecting(false);
+  };
+
+  const handleDisconnectWallet = () => {
+    setAccount(null);
+    setIsConnected(false);
+  };
+
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-background">
@@ -29,17 +54,29 @@ export default function Home() {
           <Logo className="h-8 w-8 text-primary" />
           <h1 className="text-2xl font-bold font-headline">BaseScan</h1>
         </div>
-        <div className="flex items-center gap-2 text-sm">
-          <Shield className="h-4 w-4 text-muted-foreground" />
-          <span className="text-muted-foreground">Owner:</span>
-          <a
-            href={`https://etherscan.io/address/${contractOwner}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-mono text-primary hover:underline"
-          >
-            {`${contractOwner.substring(0, 6)}...${contractOwner.substring(contractOwner.length - 4)}`}
-          </a>
+        <div className="flex items-center gap-4">
+          <div className="hidden items-center gap-2 text-sm sm:flex">
+            <Shield className="h-4 w-4 text-muted-foreground" />
+            <span className="text-muted-foreground">Owner:</span>
+            <a
+              href={`https://etherscan.io/address/${contractOwner}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono text-primary hover:underline"
+            >
+              {`${contractOwner.substring(0, 6)}...${contractOwner.substring(contractOwner.length - 4)}`}
+            </a>
+          </div>
+          {isConnected && account ? (
+             <Button variant="outline" onClick={handleDisconnectWallet}>
+               <span className="font-mono">{`${account.substring(0, 6)}...${account.substring(account.length - 4)}`}</span>
+             </Button>
+          ) : (
+            <Button onClick={handleConnectWallet} disabled={isConnecting}>
+              <Wallet className="mr-2 h-4 w-4" />
+              {isConnecting ? "Connecting..." : "Connect Wallet"}
+            </Button>
+          )}
         </div>
       </header>
       <main className="flex-1 p-4 sm:p-6">
