@@ -13,6 +13,7 @@ import UpdateTokenPrices from "@/components/dashboard/update-token-prices";
 import AdminActions from "@/components/dashboard/admin-actions";
 import { CollapsibleCard } from "@/components/ui/collapsible-card";
 import { Separator } from "@/components/ui/separator";
+import ProtocolTvlChart from "@/components/dashboard/protocol-tvl-chart";
 
 export default function Home() {
   const totalTVL = protocols.reduce((acc, p) => acc + p.tvl, 0);
@@ -85,6 +86,12 @@ export default function Home() {
             <div>
               <EtherscanLinker />
             </div>
+          </section>
+
+          <Separator className="my-8" />
+          
+          <section className="mb-8">
+            <ProtocolTvlChart protocols={protocols} />
           </section>
           
           <Separator className="my-8" />
