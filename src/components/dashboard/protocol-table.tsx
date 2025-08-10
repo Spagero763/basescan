@@ -31,7 +31,11 @@ export default function ProtocolTable({ protocols }: ProtocolTableProps) {
 
   const calculateApy = (volume24h: number, tvl: number): string => {
     if (tvl === 0) return "0.00";
-    const apy = (volume24h * 365 * 100) / tvl;
+    // APY is fees (approximated from volume) annualized, as a percentage of TVL.
+    // Assuming a 0.3% fee on volume, a common DEX fee.
+    const dailyFees = volume24h * 0.003;
+    const yearlyFees = dailyFees * 365;
+    const apy = (yearlyFees / tvl) * 100;
     return apy.toFixed(2);
   };
 
