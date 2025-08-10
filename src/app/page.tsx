@@ -40,7 +40,8 @@ export default function Home() {
     // In a real app, you would use a library like ethers.js, wagmi, or web3-react to connect to a wallet.
     // This is a simulation.
     await new Promise(resolve => setTimeout(resolve, 1000));
-    const mockAccount = "0x742d35Cc6634C0532925a3b844Bc454e4438f44e";
+    // Set mock account to be the owner for demonstration purposes
+    const mockAccount = "0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B";
     setAccount(mockAccount);
     setIsConnected(true);
     setIsConnecting(false);
@@ -50,6 +51,8 @@ export default function Home() {
     setAccount(null);
     setIsConnected(false);
   };
+
+  const isOwner = isConnected && account?.toLowerCase() === contractOwner.toLowerCase();
 
 
   return (
@@ -92,27 +95,31 @@ export default function Home() {
                   <EtherscanLinker />
                 </AccordionContent>
               </AccordionItem>
-               <AccordionItem value="item-3">
-                <AccordionTrigger className="px-4 text-base hover:no-underline">
-                  <div className="flex items-center gap-2">
-                    <UploadCloud /> Update Data
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent className="p-2 space-y-2">
-                   <UpdateMetrics />
-                   <UpdateTokenPrices />
-                </AccordionContent>
-              </AccordionItem>
-               <AccordionItem value="item-4">
-                <AccordionTrigger className="px-4 text-base hover:no-underline">
-                  <div className="flex items-center gap-2">
-                    <UserCog /> Admin
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent className="p-2">
-                   <AdminActions />
-                </AccordionContent>
-              </AccordionItem>
+              {isOwner && (
+                <>
+                  <AccordionItem value="item-3">
+                    <AccordionTrigger className="px-4 text-base hover:no-underline">
+                      <div className="flex items-center gap-2">
+                        <UploadCloud /> Update Data
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent className="p-2 space-y-2">
+                      <UpdateMetrics />
+                      <UpdateTokenPrices />
+                    </AccordionContent>
+                  </AccordionItem>
+                  <AccordionItem value="item-4">
+                    <AccordionTrigger className="px-4 text-base hover:no-underline">
+                      <div className="flex items-center gap-2">
+                        <UserCog /> Admin
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent className="p-2">
+                      <AdminActions />
+                    </AccordionContent>
+                  </AccordionItem>
+                </>
+              )}
             </Accordion>
           </SidebarContent>
         </Sidebar>
