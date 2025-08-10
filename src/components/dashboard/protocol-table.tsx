@@ -50,6 +50,7 @@ export default function ProtocolTable({ protocols }: ProtocolTableProps) {
               <TableHead>Category</TableHead>
               <TableHead className="text-right">TVL</TableHead>
               <TableHead className="text-right">24h Volume</TableHead>
+              <TableHead className="text-right">Users</TableHead>
               <TableHead className="text-right">Est. APY</TableHead>
             </TableRow>
           </TableHeader>
@@ -77,6 +78,9 @@ export default function ProtocolTable({ protocols }: ProtocolTableProps) {
                 </TableCell>
                 <TableCell className="text-right font-mono">
                   ${(protocol.volume24h / 1_000_000).toFixed(2)}M
+                </TableCell>
+                <TableCell className="text-right font-mono">
+                  {protocol.users.toLocaleString()}
                 </TableCell>
                 <TableCell className="text-right font-mono text-primary">
                   {calculateApy(protocol.volume24h, protocol.tvl)}%
