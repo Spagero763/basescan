@@ -130,7 +130,7 @@ export default function Home() {
                 <Shield className="h-4 w-4 text-muted-foreground" />
                 <span className="text-muted-foreground">Owner:</span>
                 <a
-                  href={`https://etherscan.io/address/${contractOwner}`}
+                  href={`https://basescan.org/address/${contractOwner}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="font-mono text-primary hover:underline"
