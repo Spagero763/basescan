@@ -49,7 +49,7 @@ export default function Home() {
 
   return (
       <div className="flex min-h-screen w-full flex-col bg-muted/40">
-        <Sidebar collapsible="icon">
+        <Sidebar>
           <SidebarHeader>
              <div className="flex items-center gap-2">
                 <Button variant="ghost" size="icon" className="md:hidden">
