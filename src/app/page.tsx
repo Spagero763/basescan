@@ -8,6 +8,7 @@ import ProtocolTable from "@/components/dashboard/protocol-table";
 import TokenTable from "@/components/dashboard/token-table";
 import { Logo } from "@/components/icons";
 import MetricsCard from "@/components/dashboard/metrics-card";
+import UpdateMetrics from "@/components/dashboard/update-metrics";
 
 export default function Home() {
   const totalTVL = protocols.reduce((acc, p) => acc + p.tvl, 0);
@@ -80,6 +81,10 @@ export default function Home() {
             <div>
               <EtherscanLinker />
             </div>
+          </section>
+
+          <section className="mb-8">
+            <UpdateMetrics />
           </section>
 
           <section>
