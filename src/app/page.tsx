@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { DollarSign, Users, TrendingUp, Shield, Wallet, Bot, Search, UploadCloud, UserCog } from "lucide-react";
+import { DollarSign, Users, TrendingUp, Shield, Bot, Search, UploadCloud, UserCog } from "lucide-react";
 import { protocols, tokens } from "@/lib/mock-data";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -15,14 +15,13 @@ import UpdateTokenPrices from "@/components/dashboard/update-token-prices";
 import AdminActions from "@/components/dashboard/admin-actions";
 import ProtocolTvlChart from "@/components/dashboard/protocol-tvl-chart";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
 import { Sidebar, SidebarContent, SidebarHeader, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { useAccount } from "wagmi";
+import { ConnectWalletButton } from "@/components/dashboard/connect-wallet";
 
 export default function Home() {
-  const [isConnected, setIsConnected] = useState(false);
-  const [isConnecting, setIsConnecting] = useState(false);
-  const [account, setAccount] = useState<string | null>(null);
+  const { address, isConnected } = useAccount();
 
   const totalTVL = protocols.reduce((acc, p) => acc + p.tvl, 0);
   const totalVolume24h = protocols.reduce((acc, p) => acc + p.volume24h, 0);
@@ -35,24 +34,7 @@ export default function Home() {
   const totalAnnualFees = totalDailyFees * 365;
   const ecosystemApy = totalTVL > 0 ? (totalAnnualFees / totalTVL) * 100 : 0;
 
-  const handleConnectWallet = async () => {
-    setIsConnecting(true);
-    // In a real app, you would use a library like ethers.js, wagmi, or web3-react to connect to a wallet.
-    // This is a simulation.
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    // Set mock account to be the owner for demonstration purposes
-    const mockAccount = "0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B";
-    setAccount(mockAccount);
-    setIsConnected(true);
-    setIsConnecting(false);
-  };
-
-  const handleDisconnectWallet = () => {
-    setAccount(null);
-    setIsConnected(false);
-  };
-
-  const isOwner = isConnected && account?.toLowerCase() === contractOwner.toLowerCase();
+  const isOwner = isConnected && address?.toLowerCase() === contractOwner.toLowerCase();
 
 
   return (
@@ -151,16 +133,7 @@ export default function Home() {
                   {`${contractOwner.substring(0, 6)}...${contractOwner.substring(contractOwner.length - 4)}`}
                 </a>
               </div>
-              {isConnected && account ? (
-                <Button variant="outline" onClick={handleDisconnectWallet}>
-                  <span className="font-mono">{`${account.substring(0, 6)}...${account.substring(account.length - 4)}`}</span>
-                </Button>
-              ) : (
-                <Button onClick={handleConnectWallet} disabled={isConnecting}>
-                  <Wallet className="mr-2 h-4 w-4" />
-                  {isConnecting ? "Connecting..." : "Connect Wallet"}
-                </Button>
-              )}
+              <ConnectWalletButton />
             </div>
           </header>
           <main className="flex-1 p-4 sm:px-6 sm:py-0 space-y-6">
